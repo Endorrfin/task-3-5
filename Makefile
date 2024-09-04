@@ -8,22 +8,22 @@ define BUILD_TARGET
   $(BINARY_NAME)-$(OS)-$(ARCH)
 endef
 
+# Build rules for all targets
 all: $(foreach OS,$(PLATFORMS),$(foreach ARCH,$(ARCHS),$(call BUILD_TARGET,$(OS),$(ARCH))))
 
 $(foreach OS,$(PLATFORMS),$(foreach ARCH,$(ARCHS),$(eval $(call BUILD,$(OS),$(ARCH)))))
 
 define BUILD
 $(BINARY_NAME)-$(1)-$(2):
-    GOOS=$(1) GOARCH=$(2) go build -o bin/$(BINARY_NAME)-$(1)-$(2)
-    @echo "Built for $(1)/$(2)"
+	GOOS=$(1) GOARCH=$(2) go build -o bin/$(BINARY_NAME)-$(1)-$(2)
+	@echo "Built for $(1)/$(2)"
 endef
 
 .PHONY: clean
 clean:
-    rm -rf bin/
-    @echo "Cleaned build files"
-    render
+	rm -rf bin/
+	@echo "Cleaned build files"
 
 docker-clean:
-    docker rmi $(BINARY_NAME)
-    @echo "Docker image removed"
+	docker rmi $(BINARY_NAME)
+	@echo "Docker image removed"
