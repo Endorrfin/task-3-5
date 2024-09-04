@@ -19,11 +19,20 @@ $(BINARY_NAME)-$(1)-$(2):
 	@echo "Built for $(1)/$(2)"
 endef
 
+# Docker image build target
+.PHONY: image
+image:
+	docker build -t $(BINARY_NAME) .
+	@echo "Docker image built"
+
+# Clean build artifacts
 .PHONY: clean
 clean:
 	rm -rf bin/
 	@echo "Cleaned build files"
 
+# Clean Docker images
+.PHONY: docker-clean
 docker-clean:
 	docker rmi $(BINARY_NAME)
 	@echo "Docker image removed"
